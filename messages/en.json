@@ -1,0 +1,20 @@
+{
+  "App": {
+    "name": "CHERRY Dashboard"
+  },
+  "Login": {
+    "title": "Espace Affilié",
+    "description": "Gérez vos liens affiliés et suivez les statistiques en direct de vos publicités pour nos réseaux de rencontres.",
+    "login": "Connexion",
+    "register": "Inscription",
+    "email": "Email",
+    "emailPlaceholder": "Entrez votre adresse email",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "needCreateAccount": "Vous n'avez pas de compte ?",
+    "registerNow": "S'inscrire",
+    "loginButton": "Se connecter",
+    "affiliateName": "Nom d'affilié",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?"
+  }
+}
