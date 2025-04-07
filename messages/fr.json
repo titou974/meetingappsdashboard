@@ -21,5 +21,10 @@
     "affiliateName": "Nom d'affilié",
     "affiliateNamePlaceholder": "Entrez votre nom d'affilié",
     "alreadyHaveAccount": "Vous avez déjà un compte ?"
+  },
+  "Register&LoginActions": {
+    "emailErrorInvalid": "Email invalide",
+    "passwordErrorLengthMin": "Ton mot de passe doit faire au moins 4 caractères",
+    "passwordErrorLengthMax": "Ton mot de passe doit faire au plus 50 caractères"
   }
 }

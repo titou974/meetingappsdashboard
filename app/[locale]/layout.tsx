@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 import "./globals.css";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { Toaster } from "@/components/ui/toaster";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
@@ -49,7 +50,8 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <HomeNavbar />
-          {children}
+          <main>{children}</main>
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>
