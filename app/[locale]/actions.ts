@@ -175,12 +175,13 @@ export const login = async (
   }
 
   try {
-    await signIn("credentials", {
+    const affiliate = await signIn("credentials", {
       email: data.mail,
       password: data.password,
       redirect: false,
       redirectTo: DashboardRoutes.DASHBOARD,
     });
+    console.log("affiliate", affiliate);
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

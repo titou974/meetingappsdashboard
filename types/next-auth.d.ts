@@ -11,7 +11,7 @@ declare module "next-auth" {
     refreshToken: string;
   }
 
-  interface Affiliate {
+  interface User {
     affiliate: {
       id: string;
       affiliateName: string;

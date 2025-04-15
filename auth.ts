@@ -1,7 +1,6 @@
-import NextAuth, { Affiliate } from "next-auth";
+import NextAuth, { User, Session } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { DashboardRoutes, ApiV1Routes } from "./types";
-import { Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import { getIsTokenValid } from "./utils/token";
 
@@ -31,8 +30,9 @@ export const authOptions = {
           );
 
           const data = await res.json();
-
+          console.log("data", data);
           const isTokenValid = getIsTokenValid(data.accessToken);
+          console.log("isTokenValid", isTokenValid);
           // Check if the response contains a user and token
           if (isTokenValid) {
             // Return only the user, NextAuth will handle the session management
@@ -48,15 +48,17 @@ export const authOptions = {
   ],
   callbacks: {
     // Properly typed jwt callback
-    async jwt({ token, affiliate }: { token: JWT; affiliate?: Affiliate }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       // On sign-in, add accessToken and user to the token
-      if (affiliate) {
-        token.accessToken = affiliate.accessToken || "";
-        token.affiliate = {
-          id: "affiliate-id", // Replace with the actual affiliate ID
-          affiliateName: affiliate.affiliate.affiliateName || "",
-          email: affiliate.affiliate.email || "",
+      if (user) {
+        console.log("user", user);
+        token.accessToken = user.accessToken || "";
+        token.user = {
+          id: user.affiliate.id, // Replace with the actual user ID
+          affiliateName: user.affiliate.affiliateName || "",
+          email: user.affiliate.email || "",
         };
+        console.log("token", token);
       }
       return token;
     },
@@ -65,11 +67,13 @@ export const authOptions = {
     async session({ session, token }: { session: Session; token: JWT }) {
       // Add accessToken and user info to session
       const isTokenValid = getIsTokenValid(token.accessToken);
+      console.log("session", session);
+      console.log("tokenAfter", token);
       if (!isTokenValid) {
-        return { affiliate: null } as Session & { affiliate: null };
+        return { user: null } as Session & { user: null };
       }
       session.accessToken = token.accessToken;
-      session.affiliate = token.affiliate as Session["affiliate"];
+      session.user = token.user as Session["user"];
       return session;
     },
   },

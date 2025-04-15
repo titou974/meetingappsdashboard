@@ -20,11 +20,32 @@
     "loginButton": "Se connecter",
     "affiliateName": "Nom d'affilié",
     "affiliateNamePlaceholder": "Entrez votre nom d'affilié",
-    "alreadyHaveAccount": "Vous avez déjà un compte ?"
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "serverError": "Erreur du serveur, veuillez réessayer plus tard."
   },
   "Register&LoginActions": {
     "emailErrorInvalid": "Email invalide",
     "passwordErrorLengthMin": "Ton mot de passe doit faire au moins 4 caractères",
     "passwordErrorLengthMax": "Ton mot de passe doit faire au plus 50 caractères"
+  },
+  "Dashboard": {
+    "title": "Ton Revenu",
+    "description": "Salut {affiliateName}, voilà ton tableau de bord ! Ici, tu pourras suivre tes revenus et tes statistiques en temps réel.",
+    "sidebar": {
+      "statistics": "Statistiques",
+      "links": "Liens d'affiliations",
+      "payments": "Vos paiements",
+      "contactUs": "Contactez-nous",
+      "logout": "Déconnexion"
+    },
+    "Income": {
+      "title": "Tes ventes sur ces derniers jours",
+      "description": "Suis tes ventes sur le dernier mois",
+      "lastThreeMonths": "Les 3 derniers mois",
+      "lastThirtyDays": "Les 30 derniers jours",
+      "lastSevenDays": "Les 7 derniers jours",
+      "selectPeriod": "Sélectionner une période",
+      "incomeEarnToday": "{price}€ gagné aujourd'hui"
+    }
   }
 }
