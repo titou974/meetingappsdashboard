@@ -21,11 +21,7 @@ export default function Dashboard({
   affiliate: AffiliateLight;
 }) {
   const t = useTranslations("Dashboard.Income");
-  const {
-    data: dailyIncomes,
-    isLoading,
-    isError,
-  } = useDailyIncome(accessToken);
+  const { data: dailyIncomes } = useDailyIncome(accessToken);
   console.log("dailyIncomes", dailyIncomes);
 
   return (
