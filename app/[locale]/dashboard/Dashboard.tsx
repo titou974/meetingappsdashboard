@@ -8,10 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, RefreshCcw } from "lucide-react";
 import useDailyIncome from "@/hooks/useDailyIncome";
 import AreaChartPayment from "@/components/AreaChartPayment";
+import useTotalStatistics from "@/hooks/useTotalStatistics";
 
 export default function Dashboard({
   accessToken,
@@ -20,31 +22,49 @@ export default function Dashboard({
   accessToken: string;
   affiliate: AffiliateLight;
 }) {
-  const t = useTranslations("Dashboard.Income");
-  const { data: dailyIncomes } = useDailyIncome(accessToken);
-  console.log("dailyIncomes", dailyIncomes);
+  const title = useTranslations("Dashboard");
+  const t = useTranslations("Dashboard.income");
+  const {
+    data: totalStats,
+    refetch: refetchTotalStatics,
+    isLoading: isTotalStatsLoading,
+  } = useTotalStatistics(accessToken);
+  const {
+    data: dailyIncomes,
+    refetch: refetchDailyIncome,
+    isLoading: isDailyIncomeLoading,
+  } = useDailyIncome(accessToken);
 
   return (
     <div className="space-y-8">
       <div className="flex justify-between">
-        <div className="space-y-2 md:space-y-4 max-w-md">
-          <h1 className="text-2xl font-bold">{t("title")}</h1>
-          <p>
-            {t("description", {
-              affiliateName: affiliate?.affiliateName,
-            })}
-          </p>
+        <div className="space-y-2 max-w-md">
+          <h1 className="text-2xl md:text-4xl font-bold">{title("title")}</h1>
+          {affiliate?.affiliateName && (
+            <p>
+              {title("description", {
+                name: affiliate?.affiliateName,
+              })}
+            </p>
+          )}
         </div>
-        <Button variant="secondary" className="rounded-full">
+        <Button
+          variant="secondary"
+          className="rounded-full"
+          onClick={() => {
+            refetchTotalStatics();
+            refetchDailyIncome();
+          }}
+        >
           <RefreshCcw />
-          Rafraichir
+          {t("refresh")}
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="h-full w-full rounded-2xl">
           <CardHeader className="relative space-y-1">
             <CardTitle className="text-base font-bold">
-              Revenu du mois
+              {t("revenuCardTitle")}
             </CardTitle>
             <CardDescription className="text-base">Avril 2025</CardDescription>
             <Button
@@ -56,16 +76,31 @@ export default function Dashboard({
             </Button>
           </CardHeader>
           <CardContent className="text-2xl font-bold space-y-2">
-            <p>1 200 €</p>
-            <p className="text-sm font-medium text-muted-foreground">
-              + 20% par rapport au mois dernier
-            </p>
+            {isTotalStatsLoading ? (
+              <>
+                <Skeleton className="h-8 w-1/2" />
+                <Skeleton className="h-4 w-3/4" />
+              </>
+            ) : (
+              <>
+                <p>
+                  {t("revenu", {
+                    income: totalStats?.incomeForAffiliate || 0,
+                  })}
+                </p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  {t("onTotalRevenu", {
+                    totalIncome: totalStats?.totalIncome || 0,
+                  })}
+                </p>
+              </>
+            )}
           </CardContent>
         </Card>
         <Card className="h-full w-full rounded-2xl">
           <CardHeader className="relative space-y-1">
             <CardTitle className="text-base font-bold">
-              Nombre de visites
+              {t("subscriptionCardTitle")}
             </CardTitle>
             <CardDescription className="text-base">Avril 2025</CardDescription>
             <Button
@@ -77,16 +112,32 @@ export default function Dashboard({
             </Button>
           </CardHeader>
           <CardContent className="text-2xl font-bold space-y-2">
-            <p>24 385 visites</p>
-            <p className="text-sm font-medium text-muted-foreground">
-              + 20% par rapport au mois dernier
-            </p>
+            {isTotalStatsLoading ? (
+              <>
+                <Skeleton className="h-8 w-1/2" />
+                <Skeleton className="h-4 w-3/4" />
+              </>
+            ) : (
+              <>
+                <p>
+                  {t("subscriptionNumber", {
+                    subscriptions: totalStats?.totalNewSubscribersCount || 0,
+                  })}
+                </p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  {t("onSubscription", {
+                    totalSubscriptions:
+                      totalStats?.totalActiveSubscribersCount || 0,
+                  })}
+                </p>
+              </>
+            )}
           </CardContent>
-        </Card>{" "}
+        </Card>
         <Card className="h-full w-full rounded-2xl">
           <CardHeader className="relative space-y-1">
             <CardTitle className="text-base font-bold">
-              Taux de conversion{" "}
+              {t("visitCardTitle")}
             </CardTitle>
             <CardDescription className="text-base">Avril 2025</CardDescription>
             <Button
@@ -98,15 +149,24 @@ export default function Dashboard({
             </Button>
           </CardHeader>
           <CardContent className="text-2xl font-bold space-y-2">
-            <p>1%</p>
-            <p className="text-sm font-medium text-muted-foreground">
-              + 20% par rapport au mois dernier
-            </p>
+            {isTotalStatsLoading ? (
+              <>
+                <Skeleton className="h-8 w-1/2" />
+              </>
+            ) : (
+              <p>
+                {t("visitNumber", {
+                  visits: totalStats?.totalVisitsCount || 0,
+                })}
+              </p>
+            )}
           </CardContent>
-        </Card>{" "}
-        {dailyIncomes?.dailyIncome ? (
+        </Card>
+        {!isDailyIncomeLoading && dailyIncomes !== undefined ? (
           <AreaChartPayment dailyIncomes={dailyIncomes?.dailyIncome} />
-        ) : null}
+        ) : (
+          <Skeleton className="col-span-1 md:col-span-2 h-full w-full" />
+        )}
         <Card className="h-full w-full rounded-2xl">
           <CardHeader className="relative space-y-1">
             <CardTitle className="text-base font-bold">Vos ventes</CardTitle>
@@ -126,6 +186,34 @@ export default function Dashboard({
             <p className="text-sm font-medium text-muted-foreground">
               + 20% par rapport au mois dernier
             </p>
+          </CardContent>
+        </Card>
+        <Card className="h-full w-full rounded-2xl">
+          <CardHeader className="relative space-y-1">
+            <CardTitle className="text-base font-bold">
+              {t("conversionCardTitle")}
+            </CardTitle>
+            <CardDescription className="text-base">Avril 2025</CardDescription>
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full absolute right-4 top-2"
+            >
+              <ArrowUpRight className="size-4" />
+            </Button>
+          </CardHeader>
+          <CardContent className="text-2xl font-bold space-y-2">
+            {isTotalStatsLoading ? (
+              <>
+                <Skeleton className="h-8 w-1/2" />
+              </>
+            ) : (
+              <p>
+                {t("conversionNumber", {
+                  conversions: totalStats?.conversionRate || 0,
+                })}
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>

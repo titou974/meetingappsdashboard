@@ -21,16 +21,20 @@
     "affiliateName": "Nom d'affilié",
     "affiliateNamePlaceholder": "Entrez votre nom d'affilié",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
-    "serverError": "Erreur du serveur, veuillez réessayer plus tard."
+    "captchaRequired": "Tu dois valider le CAPTCHA",
+    "serverError": "Une erreur est survenue, veuillez réessayer plus tard"
   },
   "Register&LoginActions": {
+    "nameErrorLengthMin": "Le nom d'affilié doit faire au moins 4 caractères",
+    "nameErrorLengthMax": "Le nom d'affilié doit faire au plus 10 caractères",
+    "passwordErrorMatch": "Les mots de passe ne correspondent pas",
     "emailErrorInvalid": "Email invalide",
     "passwordErrorLengthMin": "Ton mot de passe doit faire au moins 4 caractères",
     "passwordErrorLengthMax": "Ton mot de passe doit faire au plus 50 caractères"
   },
   "Dashboard": {
     "title": "Ton Revenu",
-    "description": "Salut {affiliateName}, voilà ton tableau de bord ! Ici, tu pourras suivre tes revenus et tes statistiques en temps réel.",
+    "description": "Salut {name}, voilà ton tableau de bord ! Ici, tu pourras suivre tes revenus et tes statistiques en temps réel.",
     "sidebar": {
       "statistics": "Statistiques",
       "links": "Liens d'affiliations",
@@ -38,7 +42,19 @@
       "contactUs": "Contactez-nous",
       "logout": "Déconnexion"
     },
-    "Income": {
+    "income": {
+      "refresh": "Rafraîchir",
+      "revenuCardTitle": "Revenu du mois",
+      "revenu": "{income}€",
+      "onTotalRevenu": "sur un total de {totalIncome}€ généré*",
+      "subscriptionCardTitle": "Nouveaux abonnés",
+      "subscriptionNumber": "{subscriptions} abonnés",
+      "onSubscription": "sur un total de {totalSubscriptions} abonnés actifs",
+      "visitCardTitle": "Nombre de visites",
+      "visitNumber": "{visits} visites",
+      "conversionCardTitle": "Taux de conversions",
+      "conversionNumber": "{conversions}%",
+      "basedOnYourShare": "Basé sur ta part de {percentage}%",
       "title": "Tes ventes sur ces derniers jours",
       "description": "Suis tes ventes sur le dernier mois",
       "lastThreeMonths": "Les 3 derniers mois",

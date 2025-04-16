@@ -9,7 +9,7 @@ export default function DashboardLayout({
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />
-      <div className="flex flex-col justify-start text-left w-full px-4 md:px-6 py-[72px] min-h-[calc(100vh-64px)]">
+      <div className="flex flex-col justify-start text-left w-full px-4 md:px-6 py-[72px] min-h-[calc(100vh-64px)] max-w-screen-lg mx-auto">
         {children}
       </div>
     </SidebarProvider>

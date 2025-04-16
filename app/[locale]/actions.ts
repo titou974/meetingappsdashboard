@@ -1,6 +1,11 @@
 "use server";
 
-import { DashboardRoutes, FormErrors, RegisterPayload } from "@/types";
+import {
+  ApiV1Routes,
+  DashboardRoutes,
+  FormErrors,
+  RegisterPayload,
+} from "@/types";
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 import { RegisterResponse } from "@/types"; // Import your new type
@@ -21,23 +26,33 @@ export const createAffiliate = async (
 > => {
   const t = await getTranslations("Register&LoginActions");
 
-  const RegisterFormSchema = z.object({
-    age: z.string().min(2).max(2),
-    mail: z.string().email(t("emailErrorInvalid")),
-    password: z
-      .string()
-      .min(4, t("passwordErrorLengthMin"))
-      .max(50, t("passwordErrorLengthMax")),
-    cguAccepted: z
-      .union([z.string(), z.undefined()]) // Handle the case when it's undefined (not checked)
-      .transform((val) => val !== undefined) // Convert to boolean, true if exists, false otherwise
-      .refine((val) => val === true),
-    linkName: z.string().optional(),
-  });
+  const RegisterFormSchema = z
+    .object({
+      affiliateName: z.string().min(2, t("nameErrorLengthMin")),
+      password: z
+        .string()
+        .min(4, t("passwordErrorLengthMin"))
+        .max(50, t("passwordErrorLengthMax")),
+      confirmPassword: z.string(),
+      cguAccepted: z
+        .union([z.string(), z.undefined()]) // Handle the case when it's undefined (not checked)
+        .transform((val) => val !== undefined) // Convert to boolean, true if exists, false otherwise
+        .refine((val) => val === true),
+    })
+    .superRefine(({ confirmPassword, password }, ctx) => {
+      if (password !== confirmPassword) {
+        ctx.addIssue({
+          code: "custom",
+          message: t("passwordErrorMatch"),
+          path: ["confirmPassword"],
+        });
+      }
+    });
   const data = Object.fromEntries(formData.entries());
   const validated = RegisterFormSchema.safeParse(data);
   const cguAccepted = data.cguAccepted === undefined ? false : true;
-
+  console.log("cguAccepted", cguAccepted);
+  console.log("validated", validated);
   if (!validated.success) {
     const errors = validated.error.errors.reduce((acc: FormErrors, error) => {
       acc[error.path[0]] = error.message;
@@ -81,13 +96,14 @@ export const createAffiliate = async (
       payload.linkName = data.linkName as string; // Explicitly cast to string
     }
 
-    const response = await fetch(`${apiUrl}/v1/auth/user/register`, {
+    const response = await fetch(`${apiUrl}${ApiV1Routes.register}`, {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
       },
     });
+    console.log("response", response);
     if (!response.ok) {
       const result = await response.json();
       if (response.status === 409) {
@@ -115,6 +131,7 @@ export const createAffiliate = async (
       };
     }
   } catch (error) {
+    console.error("Error during registration:", error);
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":

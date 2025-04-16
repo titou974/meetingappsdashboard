@@ -6,9 +6,8 @@ export enum ApiV1Routes {
   login = "/v1/auth/affiliate/login",
   register = "/v1/auth/affiliate/register",
   currentAffiliate = "/v1/affiliate/current",
-  affiliate = "/v1/affiliate",
-  incomeTotals = "/v1/income/totals",
-  income = "/v1/income",
+  dailyIncome = "/v1/income/daily",
+  totalStats = "/v1/affiliate/total-stats",
 }
 
 export interface FormErrors {
@@ -49,4 +48,13 @@ export interface DailyIncome {
 
 export interface DailyIncomeResponse {
   dailyIncome: DailyIncome[];
+}
+
+export interface TotalStatsResponse {
+  conversionRate: string;
+  totalIncome: number;
+  incomeForAffiliate: number;
+  totalActiveSubscribersCount: number;
+  totalNewSubscribersCount: number;
+  totalVisitsCount: number;
 }

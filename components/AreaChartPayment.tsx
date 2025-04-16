@@ -1,5 +1,5 @@
 "use client";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -10,8 +10,6 @@ import {
 import {
   ChartConfig,
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
@@ -31,7 +29,7 @@ export default function AreaChartPayment({
   dailyIncomes: DailyIncome[];
 }) {
   const [timeRange, setTimeRange] = useState("30d");
-  const t = useTranslations("Dashboard.Income");
+  const t = useTranslations("Dashboard.income");
 
   const chartConfig = {
     dailyIncomes: {
@@ -60,7 +58,6 @@ export default function AreaChartPayment({
     startDate.setDate(startDate.getDate() - daysToSubtract);
     return date >= startDate;
   });
-  console.log("filteredData", filteredData);
 
   return (
     <Card className="md:col-span-2">
@@ -94,39 +91,14 @@ export default function AreaChartPayment({
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <AreaChart data={filteredData}>
-            <defs>
-              <linearGradient
-                id="fillaffiliateIncome"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-affiliateIncome)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-affiliateIncome)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="filltotalIncome" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-totalIncome)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-totalIncome)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-            </defs>
+          <LineChart
+            accessibilityLayer
+            data={filteredData}
+            margin={{
+              left: 12,
+              right: 12,
+            }}
+          >
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"
@@ -136,42 +108,35 @@ export default function AreaChartPayment({
               minTickGap={32}
               tickFormatter={(value) => {
                 const date = new Date(value);
-                return date.toLocaleDateString("fr-FR", {
+                return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
                 });
               }}
             />
             <ChartTooltip
-              cursor={false}
               content={
                 <ChartTooltipContent
+                  className="w-[150px]"
+                  nameKey="views"
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("fr-FR", {
+                    const date = new Date(value);
+                    return date.toLocaleDateString("fr-FR", {
                       month: "short",
                       day: "numeric",
                     });
                   }}
-                  indicator="dot"
                 />
               }
             />
-            <Area
-              dataKey="totalIncome"
-              type="natural"
-              fill="url(#filltotalIncome)"
-              stroke="var(--color-totalIncome)"
-              stackId="a"
-            />
-            <Area
+            <Line
               dataKey="affiliateIncome"
-              type="natural"
-              fill="url(#fillaffiliateIncome)"
-              stroke="var(--color-affiliateIncome)"
-              stackId="a"
+              type="monotone"
+              stroke={`var(--color-affiliateIncome)`}
+              strokeWidth={2}
+              dot={false}
             />
-            <ChartLegend content={<ChartLegendContent />} />
-          </AreaChart>
+          </LineChart>
         </ChartContainer>
       </CardContent>
     </Card>
