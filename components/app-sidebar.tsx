@@ -21,21 +21,23 @@ import {
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/routing";
+import { DashboardRoutes } from "@/types";
+import { logout } from "@/app/[locale]/actions";
 // Menu items.
 const items = [
   {
-    title: "Paiements",
-    url: "/dashboard",
+    title: "Tableau de bord",
+    url: DashboardRoutes.DASHBOARD,
     icon: BanknoteArrowUp,
   },
   {
     title: "Liens d'affiliations",
-    url: "/links",
+    url: DashboardRoutes.LINKS,
     icon: Cable,
   },
   {
     title: "Vos paiements",
-    url: "/payments",
+    url: DashboardRoutes.PAYMENTS,
     icon: HandCoins,
   },
 ];
@@ -51,6 +53,9 @@ const footerItems = [
     url: "#",
     icon: DoorOpen,
     className: "text-primary",
+    onClick: async () => {
+      await logout();
+    },
   },
 ];
 
@@ -89,7 +94,11 @@ export function AppSidebar() {
           <SidebarMenu>
             {footerItems.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild className={item.className}>
+                <SidebarMenuButton
+                  asChild
+                  className={item.className}
+                  onClick={() => item.onClick}
+                >
                   <Link href={item.url}>
                     <item.icon />
                     <span>{item.title}</span>

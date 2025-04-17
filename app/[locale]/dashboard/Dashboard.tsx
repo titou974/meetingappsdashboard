@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
-import { AffiliateLight, Links } from "@/types";
+import { AffiliateLight } from "@/types";
 import {
   Card,
   CardContent,
@@ -18,11 +18,9 @@ import useTotalStatistics from "@/hooks/useTotalStatistics";
 export default function Dashboard({
   accessToken,
   affiliate,
-  links,
 }: {
   accessToken: string;
   affiliate: AffiliateLight;
-  links: Links;
 }) {
   const title = useTranslations("Dashboard");
   const t = useTranslations("Dashboard.income");
@@ -30,15 +28,14 @@ export default function Dashboard({
     data: totalStats,
     refetch: refetchTotalStatics,
     isLoading: isTotalStatsLoading,
-    isFetched: isTotalStatsFetched,
+    isFetching: isTotalStatsFetching,
   } = useTotalStatistics(accessToken);
   const {
     data: dailyIncomes,
     refetch: refetchDailyIncome,
     isLoading: isDailyIncomeLoading,
-    isFetched: isDailyIncomeFetched,
+    isFetching: isDailyIncomeFetching,
   } = useDailyIncome(accessToken);
-  console.log("links", links);
   return (
     <div className="space-y-8">
       <div className="flex flex-col space-y-6 md:flex-row justify-between">
@@ -61,7 +58,7 @@ export default function Dashboard({
           }}
         >
           <RefreshCcw
-            className={`${(isDailyIncomeFetched || isDailyIncomeLoading || isTotalStatsFetched || isTotalStatsLoading) && "animate-spin"}`}
+            className={`${(isDailyIncomeFetching || isDailyIncomeLoading || isTotalStatsFetching || isTotalStatsLoading) && "animate-spin"}`}
           />
           {t("refresh")}
         </Button>
@@ -211,7 +208,7 @@ export default function Dashboard({
           <CardContent className="text-2xl font-bold space-y-2">
             {isTotalStatsLoading ? (
               <>
-                <Skeleton className="h-8 w-1/2" />
+                <Skeleton className="h-8 w-1/2 rounded-2xl" />
               </>
             ) : (
               <p>

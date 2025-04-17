@@ -256,7 +256,7 @@ export default function LoginCard() {
               />
             </CardContent>
             <CardFooter>
-              <Button disabled={isRegisterPending && true}>
+              <Button disabled={isRegisterPending}>
                 {isRegisterPending && <Loader2 className="animate-spin" />}
                 {t("registerNow")}
               </Button>

@@ -71,7 +71,14 @@
       "linkNamePlaceholder": "twitter1",
       "linkSocialMedia": "Sélectionnez le réseau social",
       "linkSocialMediaPlaceholder": "Sélectionnez le réseau social",
-      "createLink": "Créer le lien"
+      "createLink": "Créer le lien",
+      "linkNameErrorLengthMin": "Le nom du lien doit faire au moins 2 caractères",
+      "socialMediaErrorRequired": "Sélectionnez un réseau social"
+    },
+    "links": {
+      "title": "Vos liens d'affiliation",
+      "description": "Voici la liste de vos liens d'affiliation. Vous pouvez les modifier ou les supprimer.",
+      "addLink": "Ajouter un lien"
     }
   }
 }

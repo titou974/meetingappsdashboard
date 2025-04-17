@@ -1,6 +1,8 @@
 export enum DashboardRoutes {
   HOME = "/",
   DASHBOARD = "/dashboard",
+  LINKS = "/dashboard/links",
+  PAYMENTS = "/dashboard/payments",
 }
 export enum ApiV1Routes {
   login = "/v1/auth/affiliate/login",
@@ -9,6 +11,7 @@ export enum ApiV1Routes {
   dailyIncome = "/v1/income/daily",
   totalStats = "/v1/affiliate/total-stats",
   links = "/v1/links",
+  link = "/v1/link",
 }
 
 export enum SocialMediaType {
@@ -80,6 +83,8 @@ export interface Link {
   totalVisitsCount: number;
   totalActiveSubscribersCount: number;
   conversionRate: number;
+  socialMedia: SocialMediaType;
+  query: string;
 }
 
 export interface Links {
@@ -88,3 +93,43 @@ export interface Links {
   totalLinks: number;
   links: Link[];
 }
+
+export const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL;
+
+export const socialMediaList = [
+  {
+    value: SocialMediaType.X,
+    label: "X/Twitter",
+    image: "/x.webp",
+  },
+  {
+    value: SocialMediaType.TIKTOK,
+    label: "TikTok",
+    image: "/tiktok.webp",
+  },
+  {
+    value: SocialMediaType.INSTAGRAM,
+    label: "Instagram",
+    image: "/instagram.webp",
+  },
+  {
+    value: SocialMediaType.SNAPCHAT,
+    label: "Snapchat",
+    image: "/snapchat.webp",
+  },
+  {
+    value: SocialMediaType.TELEGRAM,
+    label: "Telegram",
+    image: "/telegram.webp",
+  },
+  {
+    value: SocialMediaType.YOUTUBE,
+    label: "YouTube",
+    image: "/youtube.webp",
+  },
+  {
+    value: SocialMediaType.OTHER,
+    label: "Autre",
+    image: "/other.webp",
+  },
+];

@@ -9,7 +9,7 @@ import {
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 import { RegisterResponse } from "@/types"; // Import your new type
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { redirect } from "@/i18n/routing";
 import { AuthError } from "next-auth";
 import { getLocale } from "next-intl/server";
@@ -219,4 +219,10 @@ export const login = async (
   const locale = await getLocale();
 
   redirect({ href: DashboardRoutes.DASHBOARD, locale: locale });
+};
+
+export const logout = async () => {
+  await signOut();
+  const locale = await getLocale();
+  redirect({ href: DashboardRoutes.HOME, locale: locale });
 };
