@@ -34,7 +34,8 @@
   },
   "Dashboard": {
     "title": "Ton Revenu",
-    "description": "Salut {name}, voilà ton tableau de bord ! Ici, tu pourras suivre tes revenus et tes statistiques en temps réel.",
+    "description": "Salut {name}, voilà tes revenus actuels et tes statistiques d'affilié.",
+    "welcome": "Bienvenue {name}, voilà ton tableau de bord ! Commence par créer ton premier lien d'affiliation.",
     "sidebar": {
       "statistics": "Statistiques",
       "links": "Liens d'affiliations",
@@ -62,6 +63,15 @@
       "lastSevenDays": "Les 7 derniers jours",
       "selectPeriod": "Sélectionner une période",
       "incomeEarnToday": "{price}€ gagné aujourd'hui"
+    },
+    "createLink": {
+      "title": "Créer un lien d'affiliation",
+      "description": "Les liens d'affiliations vous permettent de partager notre réseau de rencontre et gagner un pourcentage du revenu pour chaque abonnement rapporté.",
+      "linkName": "Nom du lien",
+      "linkNamePlaceholder": "twitter1",
+      "linkSocialMedia": "Sélectionnez le réseau social",
+      "linkSocialMediaPlaceholder": "Sélectionnez le réseau social",
+      "createLink": "Créer le lien"
     }
   }
 }

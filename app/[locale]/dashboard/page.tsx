@@ -3,6 +3,7 @@ import { getLocale } from "next-intl/server";
 import { DashboardRoutes, ApiV1Routes } from "@/types";
 import { redirect } from "@/i18n/routing";
 import Dashboard from "./Dashboard";
+import DashboardStart from "./DashboardStart";
 
 export default async function Page() {
   const session = await auth();
@@ -11,7 +12,7 @@ export default async function Page() {
   if (!session || !session.accessToken) {
     redirect({ href: DashboardRoutes.HOME, locale: locale });
   } else {
-    const response = await fetch(
+    const responseCurrentAffiliate = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}${ApiV1Routes.currentAffiliate}`,
       {
         method: "GET",
@@ -21,11 +22,31 @@ export default async function Page() {
       }
     );
 
-    console.log("response", response);
-    const affiliateData = await response.json();
+    console.log("responseCurrentAffiliate", responseCurrentAffiliate);
+    const affiliateData = await responseCurrentAffiliate.json();
 
-    return (
-      <Dashboard accessToken={session?.accessToken} affiliate={affiliateData} />
+    const responseLinks = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}${ApiV1Routes.links}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `${session?.accessToken}`,
+        },
+      }
     );
+
+    const linksData = await responseLinks.json();
+
+    if (linksData.totalLinks === 0) {
+      return <DashboardStart affiliate={affiliateData} />;
+    } else {
+      return (
+        <Dashboard
+          accessToken={session?.accessToken}
+          affiliate={affiliateData}
+          links={linksData}
+        />
+      );
+    }
   }
 }

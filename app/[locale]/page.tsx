@@ -1,4 +1,4 @@
-import LoginCard from "@/components/providers/LoginCard";
+import LoginCard from "@/components/forms/LoginCard";
 import { getTranslations } from "next-intl/server";
 import HomeNavbar from "@/components/providers/HomeNavbar";
 export default async function Home() {

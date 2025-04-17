@@ -8,6 +8,17 @@ export enum ApiV1Routes {
   currentAffiliate = "/v1/affiliate/current",
   dailyIncome = "/v1/income/daily",
   totalStats = "/v1/affiliate/total-stats",
+  links = "/v1/links",
+}
+
+export enum SocialMediaType {
+  X = "X",
+  TIKTOK = "TIKTOK",
+  INSTAGRAM = "INSTAGRAM",
+  SNAPCHAT = "SNAPCHAT",
+  TELEGRAM = "TELEGRAM",
+  YOUTUBE = "YOUTUBE",
+  OTHER = "OTHER",
 }
 
 export interface FormErrors {
@@ -57,4 +68,23 @@ export interface TotalStatsResponse {
   totalActiveSubscribersCount: number;
   totalNewSubscribersCount: number;
   totalVisitsCount: number;
+}
+
+export interface Link {
+  id: number;
+  name: string;
+  appId: number;
+  createdAt: Date;
+  totalIncome: number;
+  affiliateTotalIncome: number;
+  totalVisitsCount: number;
+  totalActiveSubscribersCount: number;
+  conversionRate: number;
+}
+
+export interface Links {
+  currentPage: number;
+  totalPages: number;
+  totalLinks: number;
+  links: Link[];
 }

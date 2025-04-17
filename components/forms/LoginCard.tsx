@@ -224,7 +224,7 @@ export default function LoginCard() {
                   htmlFor="terms2"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Accept terms and conditions
+                  Accepter les conditions générales d&apos;utilisation
                 </label>
               </div>
               <Turnstile

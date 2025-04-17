@@ -2,9 +2,9 @@
 import {
   HandCoins,
   BanknoteArrowUp,
-  Link,
   MessageCircle,
   DoorOpen,
+  Cable,
 } from "lucide-react";
 
 import {
@@ -20,21 +20,22 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/routing";
 // Menu items.
 const items = [
   {
     title: "Paiements",
-    url: "#",
+    url: "/dashboard",
     icon: BanknoteArrowUp,
   },
   {
     title: "Liens d'affiliations",
-    url: "#",
-    icon: Link,
+    url: "/links",
+    icon: Cable,
   },
   {
     title: "Vos paiements",
-    url: "#",
+    url: "/payments",
     icon: HandCoins,
   },
 ];
@@ -42,7 +43,7 @@ const items = [
 const footerItems = [
   {
     title: "Contacte-nous",
-    url: "#",
+    url: "/contact",
     icon: MessageCircle,
   },
   {
@@ -55,6 +56,7 @@ const footerItems = [
 
 export function AppSidebar() {
   const t = useTranslations("App");
+  const pathname = usePathname();
   return (
     <Sidebar>
       <SidebarContent>
@@ -70,11 +72,11 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                  <SidebarMenuButton asChild isActive={pathname === item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -88,10 +90,10 @@ export function AppSidebar() {
             {footerItems.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild className={item.className}>
-                  <a href={item.url}>
+                  <Link href={item.url}>
                     <item.icon />
                     <span>{item.title}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
