@@ -5,6 +5,7 @@ import {
   MessageCircle,
   DoorOpen,
   Cable,
+  ShieldUser,
 } from "lucide-react";
 
 import {
@@ -24,44 +25,50 @@ import { Link, usePathname } from "@/i18n/routing";
 import { DashboardRoutes } from "@/types";
 import { logout } from "@/app/[locale]/actions";
 // Menu items.
-const items = [
-  {
-    title: "Tableau de bord",
-    url: DashboardRoutes.DASHBOARD,
-    icon: BanknoteArrowUp,
-  },
-  {
-    title: "Liens d'affiliations",
-    url: DashboardRoutes.LINKS,
-    icon: Cable,
-  },
-  {
-    title: "Vos paiements",
-    url: DashboardRoutes.PAYMENTS,
-    icon: HandCoins,
-  },
-];
 
-const footerItems = [
-  {
-    title: "Contacte-nous",
-    url: "/contact",
-    icon: MessageCircle,
-  },
-  {
-    title: "Déconnexion",
-    url: "#",
-    icon: DoorOpen,
-    className: "text-primary",
-    onClick: async () => {
-      await logout();
-    },
-  },
-];
-
-export function AppSidebar() {
+export function AppSidebar({ isAdmin }: { isAdmin: boolean }) {
   const t = useTranslations("App");
   const pathname = usePathname();
+
+  const items = [
+    isAdmin && {
+      title: "Espace Admin",
+      url: DashboardRoutes.DASHBOARD_ADMIN,
+      icon: ShieldUser,
+    },
+    {
+      title: "Tableau de bord",
+      url: DashboardRoutes.DASHBOARD,
+      icon: BanknoteArrowUp,
+    },
+    {
+      title: "Liens d'affiliations",
+      url: DashboardRoutes.LINKS,
+      icon: Cable,
+    },
+    {
+      title: "Vos paiements",
+      url: DashboardRoutes.PAYMENTS,
+      icon: HandCoins,
+    },
+  ];
+
+  const footerItems = [
+    {
+      title: "Contacte-nous",
+      url: "/contact",
+      icon: MessageCircle,
+    },
+    {
+      title: "Déconnexion",
+      url: "#",
+      icon: DoorOpen,
+      className: "text-primary",
+      onClick: async () => {
+        await logout();
+      },
+    },
+  ];
   return (
     <Sidebar>
       <SidebarContent>
@@ -75,16 +82,22 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.map(
+                (item) =>
+                  item && (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === item.url}
+                      >
+                        <Link href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

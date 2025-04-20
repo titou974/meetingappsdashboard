@@ -27,7 +27,7 @@ export default async function Page() {
     const affiliateData = await responseCurrentAffiliate.json();
 
     const responseLinks = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}${ApiV1Routes.links}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}${ApiV1Routes.links}?isTotal=true`,
       {
         method: "GET",
         headers: {

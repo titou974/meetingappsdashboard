@@ -138,3 +138,21 @@ export const createLink = async (
 
   revalidatePath(DashboardRoutes.LINKS);
 };
+
+export const deleteLink = async (id: number) => {
+  const session = await auth();
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_BACKEND_URL + ApiV1Routes.link + "/" + id,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `${session?.accessToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const data = await response.json();
+  console.log("deleteLink", data);
+  revalidatePath(DashboardRoutes.LINKS);
+  return data;
+};

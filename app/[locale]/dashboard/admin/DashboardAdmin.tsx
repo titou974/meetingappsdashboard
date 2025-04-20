@@ -1,11 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
-import {
-  AffiliateLight,
-  DashboardRoutes,
-  Links,
-  socialMediaList,
-} from "@/types";
+import { AffiliateLight, DashboardRoutes } from "@/types";
 import {
   Card,
   CardContent,
@@ -18,36 +13,24 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpRight, RefreshCcw } from "lucide-react";
 import useDailyIncome from "@/hooks/useDailyIncome";
 import AreaChartPayment from "@/components/AreaChartPayment";
-import useTotalStatistics from "@/hooks/useTotalStatistics";
+import useAdminTotalStatistics from "@/hooks/useAdminTotalStatistics";
 import { useRouter } from "@/i18n/routing";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function Dashboard({
+export default function DashboardAdmin({
   accessToken,
   affiliate,
-  links,
 }: {
   accessToken: string;
   affiliate: AffiliateLight;
-  links: Links;
 }) {
-  const title = useTranslations("Dashboard");
+  const title = useTranslations("Dashboard.admin");
   const t = useTranslations("Dashboard.income");
   const {
     data: totalStats,
     refetch: refetchTotalStatics,
     isLoading: isTotalStatsLoading,
     isFetching: isTotalStatsFetching,
-  } = useTotalStatistics(accessToken);
+  } = useAdminTotalStatistics(accessToken);
   const {
     data: dailyIncomes,
     refetch: refetchDailyIncome,
@@ -204,83 +187,6 @@ export default function Dashboard({
         ) : (
           <Skeleton className="col-span-1 md:col-span-2 h-full w-full" />
         )}
-        <Card
-          onClick={() => router.push(DashboardRoutes.LINKS)}
-          className={`h-full w-full rounded-2xl ${!isTotalStatsLoading && "hover:bg-primary/80 hover:scale-95 cursor-pointer"} transition-all`}
-        >
-          <CardHeader className="relative space-y-1">
-            <CardTitle className="text-base font-bold">
-              {t("affiliateLinkCardTitle")}
-            </CardTitle>
-            <CardDescription className="text-base">Avril 2025</CardDescription>
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full absolute right-4 top-2"
-            >
-              <ArrowUpRight className="size-4" />
-            </Button>
-          </CardHeader>
-          <CardContent className="text-sm font-bold space-y-2">
-            <Table className="w-full">
-              {links.totalLinks > 3 && (
-                <TableCaption className="text-left">
-                  {3 - links.totalLinks} liens d&apos;affiliations
-                </TableCaption>
-              )}
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Nom du lien</TableHead>
-                  <TableHead>Réseau social</TableHead>
-                  <TableHead className="text-right">
-                    Revenu de l&apos;affilié ({affiliate?.share * 100}%)
-                  </TableHead>
-                  <TableHead className="text-right">Nouveaux abonnés</TableHead>
-                  <TableHead className="text-right">
-                    Nombre de visites
-                  </TableHead>
-                  <TableHead className="text-right">
-                    Taux de conversion
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {links.links.map((link) => (
-                  <TableRow key={link.id}>
-                    <TableCell className="font-medium">{link.name}</TableCell>
-                    <TableCell>
-                      {socialMediaList.map((socialMedia) => {
-                        if (link.socialMedia === socialMedia.value) {
-                          return (
-                            <Avatar className="h-6 w-6" key={socialMedia.value}>
-                              <AvatarImage src={socialMedia.image} />
-                              <AvatarFallback>
-                                {socialMedia.label}
-                              </AvatarFallback>
-                            </Avatar>
-                          );
-                        }
-                        return null;
-                      })}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {link.affiliateTotalIncome}€
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {link.totalActiveSubscribersCount}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {link.totalVisitsCount}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {link.conversionRate && link.conversionRate.toFixed(2)}%
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
         <Card
           onClick={() => router.push(DashboardRoutes.LINKS)}
           className={`h-full w-full rounded-2xl ${!isTotalStatsLoading && "hover:bg-primary/80 hover:scale-95 cursor-pointer"} transition-all`}

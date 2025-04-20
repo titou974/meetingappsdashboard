@@ -1,6 +1,7 @@
 export enum DashboardRoutes {
   HOME = "/",
   DASHBOARD = "/dashboard",
+  DASHBOARD_ADMIN = "/dashboard/admin",
   LINKS = "/dashboard/links",
   PAYMENTS = "/dashboard/payments",
 }
@@ -10,6 +11,7 @@ export enum ApiV1Routes {
   currentAffiliate = "/v1/affiliate/current",
   dailyIncome = "/v1/income/daily",
   totalStats = "/v1/affiliate/total-stats",
+  adminTotalStats = "/v1/admin/total-stats",
   links = "/v1/links",
   link = "/v1/link",
 }

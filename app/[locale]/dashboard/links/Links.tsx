@@ -12,9 +12,20 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, PlusCircle } from "lucide-react";
+import { PlusCircle, Ellipsis, Trash, Eye, Loader2 } from "lucide-react";
 import { truncateString } from "@/utils/truncate";
 import { useState } from "react";
+import CreateLinkCard from "@/components/forms/CreateLinkCard";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import CopyButton from "@/components/buttons/CopyButton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { deleteLink } from "../actions";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LinksDashboard({
   links,
@@ -25,6 +36,24 @@ export default function LinksDashboard({
 }) {
   const t = useTranslations("Dashboard.links");
   const [copiedLink, setCopiedLink] = useState<number | null>(null);
+  const [isCreateLinkOpen, setIsCreateLinkOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleDeleteLink = async (linkId: number) => {
+    setIsLoading(true);
+    toast({
+      title: t("linkIsDeleting"),
+      description: t("linkIsDeletingDescription"),
+      open: isLoading,
+      onOpenChange: () => {
+        setIsLoading(false);
+      },
+    });
+    await deleteLink(linkId);
+    setIsLoading(false);
+  };
+
   return (
     <div className="flex flex-col justify-center items-start space-y-10">
       <div className="space-y-2 max-w-md">
@@ -53,22 +82,14 @@ export default function LinksDashboard({
               <TableCell className="font-medium">{link.name}</TableCell>
               <TableCell className="flex items-center space-x-2">
                 <p>{truncateString(websiteUrl + "?a=" + link.query, 50)}</p>
-                <Button
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      websiteUrl + "?a=" + link.query
-                    );
+                <CopyButton
+                  textToCopy={websiteUrl + "?a=" + link.query}
+                  copied={copiedLink === link.id}
+                  onCopied={() => {
                     setCopiedLink(link.id);
                     setTimeout(() => setCopiedLink(null), 1500);
                   }}
-                >
-                  Copier
-                  {copiedLink === link.id ? (
-                    <Check size={16} />
-                  ) : (
-                    <Copy size={16} />
-                  )}
-                </Button>
+                />
               </TableCell>
               <TableCell>
                 {socialMediaList.map((socialMedia) => {
@@ -102,13 +123,55 @@ export default function LinksDashboard({
               <TableCell className="text-right">
                 {link.conversionRate && link.conversionRate.toFixed(2)}%
               </TableCell>
+              <TableCell className="text-right">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        setIsCreateLinkOpen(true);
+                      }}
+                      size="icon"
+                    >
+                      <Ellipsis size={16} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      Voir les transactions <Eye />
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="text-primary"
+                      onClick={() => {
+                        handleDeleteLink(link.id);
+                      }}
+                    >
+                      Supprimer
+                      {isLoading && <Loader2 className="animate-spin" />}
+                      <Trash />
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <Button variant="secondary">
-        {t("addLink")} <PlusCircle size={16} />
-      </Button>
+      <Dialog open={isCreateLinkOpen} onOpenChange={setIsCreateLinkOpen}>
+        <DialogTrigger asChild>
+          <Button variant="secondary" onClick={() => setIsCreateLinkOpen(true)}>
+            {t("addLink")} <PlusCircle size={16} />
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <CreateLinkCard
+            affiliate={affiliate}
+            setIsCreateLinkOpen={setIsCreateLinkOpen}
+            isOnLinkPage
+            isTransparent
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

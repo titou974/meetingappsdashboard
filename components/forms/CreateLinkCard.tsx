@@ -37,10 +37,14 @@ import { toast } from "@/hooks/use-toast";
 
 export default function CreateLinkCard({
   affiliate,
+  setIsCreateLinkOpen,
   isOnLinkPage = false,
+  isTransparent = false,
 }: {
   affiliate: AffiliateLight;
+  setIsCreateLinkOpen?: (isOpen: boolean) => void;
   isOnLinkPage?: boolean;
+  isTransparent?: boolean;
 }) {
   const [linksInfo, setLinksInfo] = useState({
     name: "",
@@ -53,7 +57,10 @@ export default function CreateLinkCard({
     initialState
   );
 
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
   useEffect(() => {
+    if (!hasSubmitted) return;
     if (serverErrors?.errors?.linkName) {
       toast({
         title: serverErrors?.errors?.linkName,
@@ -66,12 +73,23 @@ export default function CreateLinkCard({
       toast({
         title: serverErrors?.errors?.server,
       });
+    } else {
+      if (setIsCreateLinkOpen) {
+        setIsCreateLinkOpen(false);
+      }
     }
-  }, [serverErrors]);
+  }, [serverErrors, setIsCreateLinkOpen, hasSubmitted]);
 
   return (
-    <form action={formAction}>
-      <Card className="w-full max-w-md">
+    <form
+      action={async (formData) => {
+        setHasSubmitted(true);
+        await formAction(formData);
+      }}
+    >
+      <Card
+        className={`w-full max-w-md ${isTransparent ? "bg-transparent border-0" : ""}`}
+      >
         <CardHeader>
           <CardTitle>{t("title")}</CardTitle>
           <CardDescription>{t("description")}</CardDescription>

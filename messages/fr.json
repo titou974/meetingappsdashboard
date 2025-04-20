@@ -62,7 +62,8 @@
       "lastThirtyDays": "Les 30 derniers jours",
       "lastSevenDays": "Les 7 derniers jours",
       "selectPeriod": "Sélectionner une période",
-      "incomeEarnToday": "{price}€ gagné aujourd'hui"
+      "incomeEarnToday": "{price}€ gagné aujourd'hui",
+      "affiliateLinkCardTitle": "Vos liens d'affiliation"
     },
     "createLink": {
       "title": "Créer un lien d'affiliation",
@@ -78,7 +79,13 @@
     "links": {
       "title": "Vos liens d'affiliation",
       "description": "Voici la liste de vos liens d'affiliation. Vous pouvez les modifier ou les supprimer.",
-      "addLink": "Ajouter un lien"
+      "addLink": "Ajouter un lien",
+      "linkIsDeleting": "Le lien est en cours de suppression",
+      "linkIsDeletingDescription": "Le lien est en cours de suppression, veuillez patienter."
+    },
+    "admin": {
+      "title": "Espace Administrateur",
+      "description": "Suivez les statistiques générées par les affiliés sur le réseau de rencontre."
     }
   }
 }
