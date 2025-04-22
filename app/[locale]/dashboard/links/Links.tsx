@@ -1,5 +1,11 @@
 "use client";
-import { AffiliateLight, Links, websiteUrl, socialMediaList } from "@/types";
+import {
+  AffiliateLight,
+  Links,
+  websiteUrl,
+  socialMediaList,
+  DashboardRoutes,
+} from "@/types";
 import { useTranslations } from "next-intl";
 import {
   Table,
@@ -26,6 +32,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { deleteLink } from "../actions";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "@/i18n/routing";
 
 export default function LinksDashboard({
   links,
@@ -39,7 +46,7 @@ export default function LinksDashboard({
   const [isCreateLinkOpen, setIsCreateLinkOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-
+  const router = useRouter();
   const handleDeleteLink = async (linkId: number) => {
     setIsLoading(true);
     toast({
@@ -77,84 +84,97 @@ export default function LinksDashboard({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {links.links.map((link) => (
-            <TableRow key={link.id}>
-              <TableCell className="font-medium">{link.name}</TableCell>
-              <TableCell className="flex items-center space-x-2">
-                <p>{truncateString(websiteUrl + "?a=" + link.query, 50)}</p>
-                <CopyButton
-                  textToCopy={websiteUrl + "?a=" + link.query}
-                  copied={copiedLink === link.id}
-                  onCopied={() => {
-                    setCopiedLink(link.id);
-                    setTimeout(() => setCopiedLink(null), 1500);
-                  }}
-                />
-              </TableCell>
-              <TableCell>
-                {socialMediaList.map((socialMedia) => {
-                  if (link.socialMedia === socialMedia.value) {
-                    return (
-                      <div
-                        key={socialMedia.value}
-                        className="flex items-center space-x-2"
+          {links.links &&
+            links.links.length > 0 &&
+            links.links.map((link) => (
+              <TableRow key={link.id}>
+                <TableCell className="font-medium">{link.name}</TableCell>
+                <TableCell className="flex items-center space-x-2">
+                  <p>{truncateString(websiteUrl + "?a=" + link.query, 50)}</p>
+                  <CopyButton
+                    textToCopy={websiteUrl + "?a=" + link.query}
+                    copied={copiedLink === link.id}
+                    onCopied={() => {
+                      setCopiedLink(link.id);
+                      setTimeout(() => setCopiedLink(null), 1500);
+                    }}
+                  />
+                </TableCell>
+                <TableCell>
+                  {socialMediaList.map((socialMedia) => {
+                    if (link.socialMedia === socialMedia.value) {
+                      return (
+                        <div
+                          key={socialMedia.value}
+                          className="flex items-center space-x-2"
+                        >
+                          <Avatar className="h-6 w-6">
+                            <AvatarImage src={socialMedia.image} />
+                            <AvatarFallback>{socialMedia.label}</AvatarFallback>
+                          </Avatar>
+                          <p>{socialMedia.label}</p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                </TableCell>
+                <TableCell className="text-right">
+                  {link.affiliateTotalIncome}€
+                </TableCell>
+                <TableCell className="text-right">
+                  {link.totalIncome}€
+                </TableCell>
+                <TableCell className="text-right">
+                  {link.totalActiveSubscribersCount}
+                </TableCell>
+                <TableCell className="text-right">
+                  {link.totalVisitsCount}
+                </TableCell>
+                <TableCell className="text-right">
+                  {link.conversionRate && link.conversionRate.toFixed(2)}%
+                </TableCell>
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          setIsCreateLinkOpen(true);
+                        }}
+                        size="icon"
                       >
-                        <Avatar className="h-6 w-6">
-                          <AvatarImage src={socialMedia.image} />
-                          <AvatarFallback>{socialMedia.label}</AvatarFallback>
-                        </Avatar>
-                        <p>{socialMedia.label}</p>
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
-              </TableCell>
-              <TableCell className="text-right">
-                {link.affiliateTotalIncome}€
-              </TableCell>
-              <TableCell className="text-right">{link.totalIncome}€</TableCell>
-              <TableCell className="text-right">
-                {link.totalActiveSubscribersCount}
-              </TableCell>
-              <TableCell className="text-right">
-                {link.totalVisitsCount}
-              </TableCell>
-              <TableCell className="text-right">
-                {link.conversionRate && link.conversionRate.toFixed(2)}%
-              </TableCell>
-              <TableCell className="text-right">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="secondary"
-                      onClick={() => {
-                        setIsCreateLinkOpen(true);
-                      }}
-                      size="icon"
-                    >
-                      <Ellipsis size={16} />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      Voir les transactions <Eye />
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="text-primary"
-                      onClick={() => {
-                        handleDeleteLink(link.id);
-                      }}
-                    >
-                      Supprimer
-                      {isLoading && <Loader2 className="animate-spin" />}
-                      <Trash />
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          ))}
+                        <Ellipsis size={16} />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          router.push(
+                            DashboardRoutes.LINK.replace(
+                              ":id",
+                              link.id.toString()
+                            )
+                          );
+                        }}
+                      >
+                        Voir les transactions <Eye />
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="text-primary"
+                        onClick={() => {
+                          handleDeleteLink(link.id);
+                        }}
+                      >
+                        Supprimer
+                        {isLoading && <Loader2 className="animate-spin" />}
+                        <Trash />
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
       <Dialog open={isCreateLinkOpen} onOpenChange={setIsCreateLinkOpen}>

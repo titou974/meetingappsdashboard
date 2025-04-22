@@ -11,7 +11,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, RefreshCcw } from "lucide-react";
-import useDailyIncome from "@/hooks/useDailyIncome";
+import useAdminDailyIncome from "@/hooks/useAdminDailyIncome";
 import AreaChartPayment from "@/components/AreaChartPayment";
 import useAdminTotalStatistics from "@/hooks/useAdminTotalStatistics";
 import { useRouter } from "@/i18n/routing";
@@ -36,8 +36,14 @@ export default function DashboardAdmin({
     refetch: refetchDailyIncome,
     isLoading: isDailyIncomeLoading,
     isFetching: isDailyIncomeFetching,
-  } = useDailyIncome(accessToken);
+  } = useAdminDailyIncome(accessToken);
   const router = useRouter();
+  const now = new Date();
+  const monthYear = now.toLocaleDateString("fr-FR", {
+    month: "long",
+    year: "numeric",
+  });
+  console.log("dailyIncomes", dailyIncomes);
   return (
     <div className="space-y-8">
       <div className="flex flex-col space-y-6 md:flex-row justify-between">
@@ -80,7 +86,9 @@ export default function DashboardAdmin({
             <CardTitle className="text-base font-bold">
               {t("revenuCardTitle")}
             </CardTitle>
-            <CardDescription className="text-base">Avril 2025</CardDescription>
+            <CardDescription className="text-base">
+              {monthYear.charAt(0).toUpperCase() + monthYear.slice(1)}
+            </CardDescription>
             <Button
               variant="outline"
               size="icon"
@@ -119,7 +127,9 @@ export default function DashboardAdmin({
             <CardTitle className="text-base font-bold">
               {t("subscriptionCardTitle")}
             </CardTitle>
-            <CardDescription className="text-base">Avril 2025</CardDescription>
+            <CardDescription className="text-base">
+              {monthYear.charAt(0).toUpperCase() + monthYear.slice(1)}
+            </CardDescription>
             <Button
               variant="outline"
               size="icon"
@@ -159,7 +169,9 @@ export default function DashboardAdmin({
             <CardTitle className="text-base font-bold">
               {t("visitCardTitle")}
             </CardTitle>
-            <CardDescription className="text-base">Avril 2025</CardDescription>
+            <CardDescription className="text-base">
+              {monthYear.charAt(0).toUpperCase() + monthYear.slice(1)}
+            </CardDescription>
             <Button
               variant="outline"
               size="icon"
@@ -195,7 +207,9 @@ export default function DashboardAdmin({
             <CardTitle className="text-base font-bold">
               {t("conversionCardTitle")}
             </CardTitle>
-            <CardDescription className="text-base">Avril 2025</CardDescription>
+            <CardDescription className="text-base">
+              {monthYear.charAt(0).toUpperCase() + monthYear.slice(1)}
+            </CardDescription>
             <Button
               variant="outline"
               size="icon"

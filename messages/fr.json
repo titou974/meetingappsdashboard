@@ -86,6 +86,26 @@
     "admin": {
       "title": "Espace Administrateur",
       "description": "Suivez les statistiques générées par les affiliés sur le réseau de rencontre."
+    },
+    "linkWithPayments": {
+      "title": "Les paiements de votre lien \"{name}\"",
+      "description": "Voici la liste des paiments générés par votre lien d'affiliation.",
+      "noPayments": "Aucun paiement n'a encore été généré par ce lien d'affiliation.",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "back": "Retour à la liste des liens",
+      "table": {
+        "amount": "Montant",
+        "date": "Date",
+        "status": "Statut",
+        "affiliateRevenue": "Revenu de l'affilié",
+        "affiliatePaid": "Affilié payé ?",
+        "revenu": "{income}€",
+        "failed": "Échoué",
+        "success": "Réussi",
+        "yes": "Oui",
+        "no": "Non"
+      }
     }
   }
 }

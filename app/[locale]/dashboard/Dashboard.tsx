@@ -54,6 +54,13 @@ export default function Dashboard({
     isLoading: isDailyIncomeLoading,
     isFetching: isDailyIncomeFetching,
   } = useDailyIncome(accessToken);
+
+  const now = new Date();
+
+  const monthYear = now.toLocaleDateString("fr-FR", {
+    month: "long",
+    year: "numeric",
+  });
   const router = useRouter();
   return (
     <div className="space-y-8">
@@ -97,7 +104,10 @@ export default function Dashboard({
             <CardTitle className="text-base font-bold">
               {t("revenuCardTitle")}
             </CardTitle>
-            <CardDescription className="text-base">Avril 2025</CardDescription>
+            <CardDescription className="text-base">
+              {" "}
+              {monthYear.charAt(0).toUpperCase() + monthYear.slice(1)}
+            </CardDescription>
             <Button
               variant="outline"
               size="icon"
@@ -136,7 +146,10 @@ export default function Dashboard({
             <CardTitle className="text-base font-bold">
               {t("subscriptionCardTitle")}
             </CardTitle>
-            <CardDescription className="text-base">Avril 2025</CardDescription>
+            <CardDescription className="text-base">
+              {" "}
+              {monthYear.charAt(0).toUpperCase() + monthYear.slice(1)}
+            </CardDescription>
             <Button
               variant="outline"
               size="icon"
@@ -176,7 +189,10 @@ export default function Dashboard({
             <CardTitle className="text-base font-bold">
               {t("visitCardTitle")}
             </CardTitle>
-            <CardDescription className="text-base">Avril 2025</CardDescription>
+            <CardDescription className="text-base">
+              {" "}
+              {monthYear.charAt(0).toUpperCase() + monthYear.slice(1)}
+            </CardDescription>
             <Button
               variant="outline"
               size="icon"
@@ -212,7 +228,10 @@ export default function Dashboard({
             <CardTitle className="text-base font-bold">
               {t("affiliateLinkCardTitle")}
             </CardTitle>
-            <CardDescription className="text-base">Avril 2025</CardDescription>
+            <CardDescription className="text-base">
+              {" "}
+              {monthYear.charAt(0).toUpperCase() + monthYear.slice(1)}
+            </CardDescription>
             <Button
               variant="outline"
               size="icon"
@@ -289,7 +308,10 @@ export default function Dashboard({
             <CardTitle className="text-base font-bold">
               {t("conversionCardTitle")}
             </CardTitle>
-            <CardDescription className="text-base">Avril 2025</CardDescription>
+            <CardDescription className="text-base">
+              {" "}
+              {monthYear.charAt(0).toUpperCase() + monthYear.slice(1)}
+            </CardDescription>
             <Button
               variant="outline"
               size="icon"

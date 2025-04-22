@@ -3,6 +3,7 @@ export enum DashboardRoutes {
   DASHBOARD = "/dashboard",
   DASHBOARD_ADMIN = "/dashboard/admin",
   LINKS = "/dashboard/links",
+  LINK = "/dashboard/links/:id",
   PAYMENTS = "/dashboard/payments",
 }
 export enum ApiV1Routes {
@@ -10,6 +11,7 @@ export enum ApiV1Routes {
   register = "/v1/auth/affiliate/register",
   currentAffiliate = "/v1/affiliate/current",
   dailyIncome = "/v1/income/daily",
+  adminDailyIncome = "/v1/admin-income/daily",
   totalStats = "/v1/affiliate/total-stats",
   adminTotalStats = "/v1/admin/total-stats",
   links = "/v1/links",
@@ -135,3 +137,19 @@ export const socialMediaList = [
     image: "/other.webp",
   },
 ];
+
+export interface Payment {
+  id: number;
+  amount: number;
+  affiliateRevenue: number;
+  createdAt: Date;
+  affiliatePaid: boolean;
+  paymentFailed: boolean;
+}
+
+export interface LinkWithPaymentsResponse {
+  currentPage: number;
+  totalPages: number;
+  link: Link;
+  payments: Payment[];
+}
