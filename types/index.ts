@@ -28,6 +28,11 @@ export enum SocialMediaType {
   OTHER = "OTHER",
 }
 
+export enum PaymentType {
+  PAYPAL = "PAYPAL",
+  BANK_TRANSFER = "BANK_TRANSFER",
+}
+
 export interface FormErrors {
   [key: string]: string | undefined | null;
 }

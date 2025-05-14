@@ -58,7 +58,6 @@ export default function LoginCard() {
     if (serverErrorsLogin?.errors?.server === "Invalid credentials") {
       toast({
         title: t("wrongCredentials"),
-        description: t("wrongCredentialsDescription"),
         duration: 4000,
       });
     } else if (serverErrorsLogin?.errors?.mail) {
@@ -78,7 +77,6 @@ export default function LoginCard() {
         duration: 4000,
       });
     }
-    console.log("serverErrorsLogin", serverErrorsLogin);
   }, [serverErrorsLogin, toast, t]);
 
   useEffect(() => {
@@ -96,6 +94,13 @@ export default function LoginCard() {
     } else if (serverErrorsRegister?.errors?.confirmPassword) {
       toast({
         title: serverErrorsRegister?.errors?.confirmPassword,
+        duration: 4000,
+      });
+    } else if (
+      serverErrorsRegister?.errors?.server === "Affiliate already exists"
+    ) {
+      toast({
+        title: t("affiliateAlreadyExists"),
         duration: 4000,
       });
     } else if (serverErrorsRegister?.errors?.server) {

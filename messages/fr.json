@@ -1,6 +1,6 @@
 {
   "App": {
-    "name": "CHERRY Dashboard"
+    "name": "CHERRY Affiliate"
   },
   "Login": {
     "title": "Espace Affilié",
@@ -22,7 +22,9 @@
     "affiliateNamePlaceholder": "Entrez votre nom d'affilié",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
     "captchaRequired": "Tu dois valider le CAPTCHA",
-    "serverError": "Une erreur est survenue, veuillez réessayer plus tard"
+    "serverError": "Une erreur est survenue, veuillez réessayer plus tard",
+    "wrongCredentials": "Email ou mot de passe incorrect",
+    "affiliateAlreadyExists": "Un affilié avec cette adresse email existe déjà"
   },
   "Register&LoginActions": {
     "nameErrorLengthMin": "Le nom d'affilié doit faire au moins 4 caractères",
@@ -106,6 +108,43 @@
         "yes": "Oui",
         "no": "Non"
       }
+    },
+    "payments": {
+      "title": "Vos informations de paiements",
+      "description": "Ici tu pourras gérer tes informations de paiements.",
+      "paymentInfoForm": {
+        "title": "Informations de paiement",
+        "description": "Remplis le formulaire ci-dessous en nous indiquant ton mode de paiement.",
+        "choosePaymentMethod": "Sélectionnez ton mode de paiement",
+        "choosePaymentMethodPlaceholder": "Sélectionnez le mode de paiement",
+        "choosePaymentMethodErrorRequired": "Sélectionnez un mode de paiement",
+        "paypal": "Paypal",
+        "bankTransfer": "Virement bancaire",
+        "paypalEmail": "Email Paypal",
+        "paypalEmailPlaceholder": "Entrez votre adresse email Paypal",
+        "paypalEmailErrorInvalid": "Email Paypal invalide",
+        "paypalEmailErrorRequired": "L'email Paypal est requis",
+        "iban": "IBAN",
+        "ibanPlaceholder": "Entrez votre IBAN",
+        "ibanErrorInvalid": "IBAN invalide",
+        "ibanErrorRequired": "L'IBAN est requis",
+        "bic": "BIC",
+        "bicPlaceholder": "Entrez votre BIC",
+        "bicErrorInvalid": "BIC invalide",
+        "bicErrorRequired": "Le BIC est requis",
+        "savePaymentInfo": "Enregistrer les informations de paiement"
+      }
+    },
+    "contactUs": {
+      "title": "Contactez-nous",
+      "description": "Si vous avez des questions, n'hésitez pas à nous contacter.",
+      "name": "Nom",
+      "namePlaceholder": "Entrez votre nom",
+      "message": "Message",
+      "messagePlaceholder": "Entrez votre message",
+      "sendMessage": "Envoyer le message",
+      "messageErrorLengthMin": "Le message doit faire au moins 10 caractères",
+      "messageErrorLengthMax": "Le message doit faire au plus 500 caractères"
     }
   }
 }
